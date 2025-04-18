@@ -50,9 +50,10 @@ func main() {
 	// Pagination cursor
 	var lastDoc *firestore.DocumentSnapshot
 	for {
-		q := client.Collection(cfg.Collection).Limit(cfg.BatchSize)
+		// Add OrderBy clause for pagination
+		q := client.Collection(cfg.Collection).OrderBy(firestore.DocumentID, firestore.Asc).Limit(cfg.BatchSize)
 		if lastDoc != nil {
-			q = q.StartAfter(lastDoc.Ref)
+			q = q.StartAfter(lastDoc) // Use the snapshot directly for StartAfter
 		}
 		docs, err := q.Documents(ctx).GetAll()
 		if err != nil {
