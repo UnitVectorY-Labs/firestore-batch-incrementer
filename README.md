@@ -22,6 +22,6 @@ This application runs scanning through the collection, updating each document at
 - `ATOMIC_UPDATES` – Use atomic transactions for updates (ensures document existence, default: false)
 - `UPDATE_TYPE` – Defines how the field is updated. Possible values:
   - `INCREMENT` (default): Atomically increments the numeric field by 1.
-  - `START_TIMESTAMP`: Sets the field to the same UTC timestamp (ISO 8601) captured at the start of execution.
-  - `CURRENT_TIMESTAMP`: Sets the field to the current UTC timestamp (ISO 8601) for each document as it is updated.
+  - `START_TIMESTAMP`: Sets the field to the same UTC timestamp captured at the start of execution.
+  - `CURRENT_TIMESTAMP`: Sets the field to the current UTC timestamp for each document as it is updated.
 - `GOOGLE_APPLICATION_CREDENTIALS` – (Optional) Path to the service account JSON file. If not set, Application Default Credentials (ADC) will be used (e.g., when running in Cloud Run Jobs with an attached service account).
