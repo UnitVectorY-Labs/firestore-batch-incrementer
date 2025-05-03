@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"sync"
+	"time"
 
 	"cloud.google.com/go/firestore"
 	"github.com/kelseyhightower/envconfig"
@@ -23,6 +24,7 @@ type Config struct {
 	BatchSize     int     `envconfig:"BATCH_SIZE" default:"100"`
 	RateLimit     float64 `envconfig:"RATE_LIMIT" default:"50"`
 	AtomicUpdates bool    `envconfig:"ATOMIC_UPDATES" default:"false"`
+	UpdateType    string  `envconfig:"UPDATE_TYPE" default:"INCREMENT"`
 }
 
 func main() {
@@ -46,6 +48,12 @@ func main() {
 	defer client.Close()
 
 	limiter := rate.NewLimiter(rate.Limit(cfg.RateLimit), int(cfg.RateLimit))
+
+	// Determine start timestamp if needed
+	var startTS time.Time
+	if cfg.UpdateType == "START_TIMESTAMP" {
+		startTS = time.Now().UTC()
+	}
 
 	var lastDoc *firestore.DocumentSnapshot
 	for {
@@ -73,6 +81,16 @@ func main() {
 			go func(doc *firestore.DocumentSnapshot) {
 				defer wg.Done()
 
+				// Prepare update value based on UpdateType
+				var value interface{}
+				switch cfg.UpdateType {
+				case "START_TIMESTAMP":
+					value = startTS
+				case "CURRENT_TIMESTAMP":
+					value = time.Now().UTC()
+				default:
+					value = firestore.Increment(1)
+				}
 				if cfg.AtomicUpdates {
 
 					err := client.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
@@ -90,7 +108,7 @@ func main() {
 
 						updateErr := tx.Update(doc.Ref, []firestore.Update{{
 							Path:  cfg.FieldKey,
-							Value: firestore.Increment(1),
+							Value: value,
 						}})
 						if updateErr != nil {
 							return fmt.Errorf("failed to update document %s in transaction: %w", doc.Ref.Path, updateErr)
@@ -103,10 +121,10 @@ func main() {
 						log.Printf("transaction failed for %s: %v", doc.Ref.Path, err)
 					}
 				} else {
-
+					// Direct update without transaction
 					_, err := doc.Ref.Update(ctx, []firestore.Update{{
 						Path:  cfg.FieldKey,
-						Value: firestore.Increment(1),
+						Value: value,
 					}})
 					if err != nil {
 						log.Printf("direct update failed for %s: %v", doc.Ref.Path, err)
