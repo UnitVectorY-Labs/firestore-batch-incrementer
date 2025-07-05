@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/firestore v1.18.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	golang.org/x/time v0.12.0
-	google.golang.org/api v0.239.0
+	google.golang.org/api v0.240.0
 	google.golang.org/grpc v1.73.0
 )
 
