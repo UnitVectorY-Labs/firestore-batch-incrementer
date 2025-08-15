@@ -1,6 +1,6 @@
 module github.com/UnitVectorY-Labs/firestore-batch-incrementer
 
-go 1.24.6 // GOVERSION
+go 1.25.0 // GOVERSION
 
 require (
 	cloud.google.com/go/firestore v1.18.0
