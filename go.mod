@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/firestore v1.21.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	golang.org/x/time v0.14.0
-	google.golang.org/api v0.262.0
+	google.golang.org/api v0.265.0
 	google.golang.org/grpc v1.78.0
 )
 
@@ -37,6 +37,6 @@ require (
 	golang.org/x/text v0.33.0 // indirect
 	google.golang.org/genproto v0.0.0-20251202230838-ff82c1b0f217 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20251202230838-ff82c1b0f217 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260120174246-409b4a993575 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260128011058-8636f8732409 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 )
