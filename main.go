@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"runtime/debug"
 	"sync"
 	"time"
 
@@ -15,6 +16,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
+
+// Version is the application version, injected at build time via ldflags
+var Version = "dev"
 
 type Config struct {
 	ProjectID     string  `envconfig:"PROJECT_ID" required:"true"`
@@ -28,6 +32,18 @@ type Config struct {
 }
 
 func main() {
+	// Set the build version from the build info if not set by the build system
+	if Version == "dev" || Version == "" {
+		if bi, ok := debug.ReadBuildInfo(); ok {
+			if bi.Main.Version != "" && bi.Main.Version != "(devel)" {
+				Version = bi.Main.Version
+			}
+		}
+	}
+
+	// Log the version
+	log.Printf("firestore-batch-incrementer version: %s", Version)
+
 	var cfg Config
 	if err := envconfig.Process("", &cfg); err != nil {
 		log.Fatalf("failed to process env vars: %v", err)
