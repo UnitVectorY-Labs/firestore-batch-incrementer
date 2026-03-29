@@ -4,7 +4,7 @@ config:
   description: "Iterates through a Firestore collection in batches and atomically increments a specified root‑level numeric field with configurable rate limiting."
   license: MIT
   language: go
-  release: release-go
+  release: docker-go
   justfile: true
   codecov: true
   docs:

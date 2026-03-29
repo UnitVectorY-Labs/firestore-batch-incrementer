@@ -3,10 +3,20 @@
 # Please see the documentation for all configuration options:
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
-# dotgithubindexer: go
+# dotgithubindexer: go-docker
 version: 2
 updates:
   - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "06:00"
+      timezone: "America/New_York"
+    cooldown:
+      default-days: 3
+    open-pull-requests-limit: 20
+  - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "weekly"

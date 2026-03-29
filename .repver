@@ -11,6 +11,8 @@ commands:
      transform: "{{major}}.{{minor}}"
    - path: ".github/workflows/build-go.yml"
      pattern: "^          go-version: '(?P<version>.*)' # GOVERSION$"
+   - path: "Dockerfile"
+     pattern: "^FROM golang:(?P<version>.*) AS builder$"
    git:
      create_branch: true
      branch_name: "repver/go-v{{version}}"
