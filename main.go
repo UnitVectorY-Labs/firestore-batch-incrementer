@@ -98,7 +98,7 @@ func main() {
 				defer wg.Done()
 
 				// Prepare update value based on UpdateType
-				var value interface{}
+				var value any
 				switch cfg.UpdateType {
 				case "START_TIMESTAMP":
 					value = startTS
