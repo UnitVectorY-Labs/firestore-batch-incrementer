@@ -3,7 +3,7 @@ module github.com/UnitVectorY-Labs/firestore-batch-incrementer
 go 1.26.0 // GOVERSION
 
 require (
-	cloud.google.com/go/firestore v1.24.0
+	cloud.google.com/go/firestore v1.25.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	golang.org/x/time v0.15.0
 	google.golang.org/api v0.293.0
